@@ -1,0 +1,63 @@
+{%extends 'all-images/base.html'%}
+{% block content %}
+{{ block.super}}
+
+<div class="container-fluid">
+
+  <!-- Looping through images   -->
+  <div class="row">
+  {% for images_item in images %}
+
+
+   <div class="col-md-3">
+        <div class="card mb-4 shadow-sm">
+        <p class="card-text"><h2>{{ images_item.title }}</h2>.</p>
+          <img class = 'card-mb-4 imgclass' data-toggle="modal" data-target="#myModal{{images_item.id}}" src="{{images_item.image_image.url}}" style="width:30rem;height:30rem;" >
+          <div class="card-body">
+            <p>{{images_item.description}}</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="myModal{{images_item.id}}" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-body">
+                  <img src="{{images_item.image_image.url}}" style="width:20rem;height:24rem;" >
+
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-default" onclick="copyLink('http://127.0.0.1:8000{{images_item.image_image.url}}')" >Copy Image URL</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+  {% empty %}
+  <div class="row">
+    <h2 class="text-center">There No Images</h2>
+  </div>
+
+  {% endfor %}
+     <script>
+
+        const copyLink = function(str) {
+          const el = document.createElement('textarea');
+          el.value = str;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+        };
+      </script>
+</div>
+</div>
+{% endblock %}
